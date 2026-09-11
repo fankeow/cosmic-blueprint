@@ -204,13 +204,121 @@ body.sr-on .reveal.in{opacity:1;transform:none}
 @media(max-width:560px){.pdf-btn{right:14px;bottom:14px;padding:11px 18px;font-size:.84rem}}
 
 @media print{
-  .draftbar,.chapnav,.pdf-btn{display:none!important}
-  body.sr-on .reveal{opacity:1!important;transform:none!important}
-  body{background:#fff}
-  .cover{min-height:auto;padding:80px 24px}
-  .divider{page-break-before:always}
-  .inlife,.try,.day,.gift,.next,.bg-wrap,.gift-note,.topic .pull,.affirm{page-break-inside:avoid}
-  .topic h3,.divider h2{page-break-after:avoid}
+  @page{ margin:18mm 18mm }
+  :root{color-scheme:light}
+  *{text-shadow:none!important;box-shadow:none!important;animation:none!important;transition:none!important;
+    -webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  html,body{background:#fff!important;color:var(--ink);font-size:10.5pt;line-height:1.62}
+  body::after{content:"";position:fixed;inset:0;background:#fff;z-index:-1}
+
+  /* hide every interactive / decorative element — text only */
+  .draftbar,.chapnav,.pdf-btn,.scrollcue,.voice,.hero-video,.hero-grad,
+  .interlude-video,.interlude-overlay,.closing-video,.closing-overlay,
+  video,audio{display:none!important}
+
+  /* reveals + per-word dimming → fully visible, static */
+  body.sr-on .reveal,.reveal{opacity:1!important;transform:none!important;filter:none!important}
+  .overview .lead .wd{opacity:1!important}
+
+  /* ============ ONE STANDARD TYPE SCALE (Inter only, few sizes) ============ */
+  h1,h2,h3,h4,.lead,.pull,.affirm,.gift-note,.concept,.in-quote{font-family:var(--sans)!important}
+  /* body */
+  p,li{font-size:10.5pt!important;line-height:1.62!important;color:var(--body)}
+  /* eyebrows / labels — one look everywhere */
+  .eyebrow,.topic .label,.gift .g,.next .k,.letter .date,.in-eyebrow,.closing-eyebrow,.centre-tag{
+    font-size:8pt!important;font-weight:600!important;letter-spacing:.14em!important;text-transform:uppercase!important;
+    color:var(--stone)!important;margin:0 0 4mm!important}
+  /* cover name */
+  .cover h1{font-size:38pt!important;font-weight:350!important;letter-spacing:-.03em!important;margin:0 0 5mm!important}
+  /* chapter title */
+  .divider h2{font-size:24pt!important;font-weight:500!important;letter-spacing:-.02em!important;margin:2mm 0 4mm!important}
+  .divider .num{font-size:20pt!important;font-weight:350!important}
+  /* major section headings */
+  #intro h2,.snapshot h2,.letter h2,.closing h2{font-size:19pt!important;font-weight:500!important;letter-spacing:-.02em!important;margin:0 0 5mm!important}
+  /* topic / sub-section headings */
+  .topic h3,#intro h3{font-size:17pt!important;font-weight:450!important;letter-spacing:-.02em!important;line-height:1.14!important;margin:0 0 5mm!important}
+  /* sub-titles inside blocks */
+  .inlife .h,.try .h,.gift h4,.day .d,.next h4{font-size:12pt!important;font-weight:600!important;letter-spacing:-.01em!important;margin:0 0 2mm!important}
+  /* overview lead — big editorial statement */
+  .overview .lead{font-size:21pt!important;font-weight:400!important;line-height:1.34!important;letter-spacing:-.02em!important;color:var(--ink)!important}
+  .overview .lead b{font-weight:600!important;color:var(--ink)!important}
+  .overview p.body{font-size:11.5pt!important;margin-top:9mm!important}
+  /* quote-style accents */
+  .topic .pull,.affirm,.gift-note,.concept,.interlude .in-quote{
+    font-size:12.5pt!important;font-weight:400!important;line-height:1.5!important;letter-spacing:-.015em!important;color:var(--ink)!important}
+  .letter .sign{font-size:14pt!important;font-weight:400!important}
+
+  /* ============ CONSISTENT BREATHING ROOM ============ */
+  .doc{max-width:100%!important;padding:0!important}
+  section{padding:11mm 0!important;margin:0!important}
+  /* every hairline gets equal air above and below */
+  .topic{border-top:1px solid var(--hair)!important}
+  .rule{margin:11mm 0!important;background:var(--hair)!important}
+  .concept{margin:0 0 6mm!important;padding-left:16px!important}
+  .topic .pull{margin:6mm 0!important;padding-left:16px!important}
+  .affirm{margin:0 0 4mm!important;padding-left:16px!important}
+  .affirms{gap:4mm!important;margin-top:6mm!important}
+  .inlife{margin:6mm 0!important}
+  .try{margin:7mm 0!important}
+  .try ul{margin:0!important;padding-left:20px!important}
+  .try li{margin:0 0 2mm!important}
+  .week{gap:5mm!important;margin-top:6mm!important}
+  .facts{margin-top:2mm!important}
+
+  /* ============ FEATURE PAGES → each on its own page ============ */
+  /* Who you are — big statement, vertically centred on its own page */
+  .overview{page-break-before:always;page-break-after:always;padding:0!important;
+    min-height:250mm!important;display:flex!important;flex-direction:column;justify-content:center}
+  .overview .eyebrow{margin-bottom:7mm!important}
+  /* Dear Daniel letter — its own page */
+  .letter{page-break-after:always;padding-top:6mm!important}
+  /* drop the separators that would otherwise sit at the top of these pages */
+  .overview + .rule,.letter + .rule{display:none!important}
+
+  /* ============ COVER → centred on its own page ============ */
+  .cover{min-height:252mm!important;display:flex!important;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:0!important;background:#fff!important;page-break-after:always}
+  .cover .type-line{border:0!important;background:none!important;padding:0!important;margin-top:6mm!important;font-size:11pt!important;
+    -webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+  .cover .of{margin-bottom:6mm!important}
+  .cover .prepared{margin-top:10mm!important}
+
+  /* ============ STRIP ALL BOXES → plain text ============ */
+  .snapshot,.inlife,.try,.day,.gift,.next{
+    background:none!important;border:0!important;border-left:0!important;border-radius:0!important;padding:0!important}
+  .gifts,.nextsteps{grid-template-columns:1fr!important;gap:7mm!important}
+  .gift,.next{margin:0!important}
+  .try{color:var(--ink)!important}
+  .try .h,.try li b{color:var(--ink)!important}
+  .centre-tag{background:none!important;padding:0!important;margin:0!important;border-radius:0!important;
+    vertical-align:baseline!important;line-height:inherit!important;font-size:8pt!important}
+  .eyebrow .centre-tag::before{content:"·";margin:0 .4em 0 .2em;vertical-align:baseline}
+  .next-btn{background:none!important;color:var(--ink)!important;padding:0!important;margin-top:5px;
+    text-decoration:underline;font-weight:500;border-radius:0!important}
+
+  /* ============ INTERLUDE → centred quote on its own page ============ */
+  .interlude{background:none!important;color:var(--ink)!important;padding:0!important;
+    min-height:250mm!important;display:flex!important;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center!important;page-break-before:always;page-break-after:always}
+  .interlude .in-content{max-width:120mm!important;margin:0 auto}
+  .interlude .in-eyebrow{margin:0 0 8mm!important}
+  .interlude .in-quote{font-size:16.5pt!important;font-weight:400!important;line-height:1.44!important;
+    letter-spacing:-.015em!important;color:var(--ink)!important}
+  .interlude .in-attr{margin-top:8mm!important;color:var(--stone)!important;text-transform:none!important;letter-spacing:normal!important;font-weight:400!important}
+
+  /* ============ CLOSING → plain text on white ============ */
+  .closing{background:none!important;color:var(--ink)!important;padding:11mm 0!important;display:block;text-align:left}
+  .closing .doc{max-width:100%!important}
+  .closing .closing-eyebrow,.closing h2,.closing p,.closing a,.closing .fine{color:var(--ink)!important}
+
+  /* ============ PAGE FLOW: chapter breaks; everything else back to back ============ */
+  .divider{page-break-before:always;background:none!important}
+  .divider .inner{border-top:0!important;padding:0!important}
+  /* going-deeper sections + the closing each get their own page */
+  .topic.own-page{page-break-before:always;border-top:0!important}
+  .closing{page-break-before:always}
+  h2,h3,.topic .label,.eyebrow{page-break-after:avoid}
+  .inlife,.try,.day,.gift,.next,.bg-wrap,.gift-note,.topic .pull,.affirm,.gifts,.week,.nextsteps{page-break-inside:avoid}
 }
 .load-state{max-width:640px;margin:0 auto;padding:22vh 24px 24px;text-align:center;color:var(--stone)}.load-state h1{font-family:var(--sans);font-weight:600;font-size:1.7rem;letter-spacing:-.02em;color:var(--ink);margin:0 0 12px}.load-state p{font-size:1.02rem;line-height:1.6;margin:0 auto 10px;max-width:44ch}.load-state a{color:var(--ink);font-weight:600}.load-state .spin{width:26px;height:26px;border:2px solid var(--hair);border-top-color:var(--ink);border-radius:50%;margin:0 auto 22px;animation:ls 0.8s linear infinite}@keyframes ls{to{transform:rotate(360deg)}}</style></head>
 <body>

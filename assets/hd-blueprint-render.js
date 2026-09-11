@@ -17,8 +17,8 @@
   function pull(t){ return t?'<p class="pull">'+t+'</p>':""; }
   function lc(s){ return s?s.charAt(0).toLowerCase()+s.slice(1):s; }
 
-  function topic(eyebrow, headline, body){
-    return '<section class="topic"><div class="doc">\n'+
+  function topic(eyebrow, headline, body, cls){
+    return '<section class="topic'+(cls?(' '+cls):'')+'"><div class="doc">\n'+
       '<div class="eyebrow label">'+esc(eyebrow)+'</div>\n'+
       '<h3>'+esc(headline)+'</h3>\n'+ body + '\n</div></section>\n';
   }
@@ -351,12 +351,12 @@
       if(td.sixTips&&td.sixTips.length){
         var tips='<p>Six things to remember, so you live as yourself rather than the conditioned version.</p>\n<div class="gifts">'+
           td.sixTips.map(function(t){ return '<div class="gift"><span class="g">Tip</span><h4>'+esc(t.h)+'</h4><p>'+t.p+'</p></div>'; }).join("")+'</div>';
-        html+=topic("Six tips for the empowered you","Your everyday reminders.", tips);
+        html+=topic("Six tips for the empowered you","Your everyday reminders.", tips, "own-page");
       }
       if(td.affirmations&&td.affirmations.length){
         var aff='<p>Say these out loud, or keep them somewhere you will see them. They are your design in your own words.</p>\n<div class="affirms">'+
           td.affirmations.map(function(a){ return '<p class="affirm">'+esc(a)+'</p>'; }).join("")+'</div>';
-        html+=topic("Affirmations for you","Words to come back to.", aff);
+        html+=topic("Affirmations for you","Words to come back to.", aff, "own-page");
       }
     }
 
@@ -366,7 +366,7 @@
       return '<div class="next"><div class="k">'+esc(d.eyebrow)+'</div><h4>'+esc(d.title)+'</h4><p>'+d.desc+'</p>'+
         '<a class="next-btn" href="'+d.href+'" target="_blank" rel="noopener">'+esc(d.cta)+'</a></div>';
     }).join("\n")+'</div>';
-    html+=topic("Where to go next","When you are ready to go deeper.", nbody);
+    html+=topic("Where to go next","When you are ready to go deeper.", nbody, "own-page");
 
     // CLOSE — woven per chart
     var closeOpener=(C.close.openers&&C.close.openers[(chart.type||"").toLowerCase()])||"You were never meant to force it.";

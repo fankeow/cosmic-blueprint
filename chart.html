@@ -85,6 +85,7 @@
   .r-head h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.4rem,6vw,4rem);line-height:1.02;letter-spacing:.01em;margin:0 0 12px}
   .r-head h1 em{font-style:italic;color:var(--lilac)}
   .r-head .meta{color:var(--muted);font-size:.95rem}
+  .cover-type,.cover-rule,.cover-brand{display:none}
 
   .facts{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-radius:16px;overflow:hidden;margin:10px 0 8px}
   .fact{background:rgba(12,10,26,.55);padding:16px 18px}
@@ -100,6 +101,7 @@
   .prow strong{font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink)}
   .bodygraph{min-height:200px}
   .bodygraph svg{display:block;margin:0 auto;max-width:100%;height:auto;border-radius:14px}
+  .bg-print{display:none}
   .chart-strip{border-top:1px solid var(--line);margin-top:24px;padding-top:14px;display:flex;justify-content:space-between;
     color:var(--muted);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase}
 
@@ -115,7 +117,7 @@
   .reading h2{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4.6vw,3.1rem);line-height:1.04;letter-spacing:.01em;text-align:center;margin:0 auto 14px;max-width:20ch}
   .reading h2 em{font-style:italic;color:var(--lilac)}
   .reading .intro{color:var(--ink-soft);max-width:56ch;margin:0 auto 34px;text-align:center;font-size:1.02rem}
-  .signs{margin:0 auto 28px;max-width:660px;padding:28px 32px;border-radius:20px;
+  .signs{margin:0 0 28px;padding:28px 34px;border-radius:22px;
     background:linear-gradient(180deg,rgba(242,219,169,.14),rgba(230,150,120,.08));
     border:1px solid rgba(242,219,169,.3)}
   .signs .kicker{color:var(--coral);text-transform:uppercase;letter-spacing:.16em;font-size:.68rem;font-weight:600;margin:0 0 8px;text-align:left}
@@ -127,6 +129,9 @@
   .print-cta{display:none;margin-top:30px;padding:24px 26px;border:1px solid #e5dfd2;border-radius:14px}
   .print-cta h2{font-family:var(--serif);font-weight:400;font-size:1.6rem;color:#1a1a1a;margin:0 0 10px}
   .print-cta p{color:#333;line-height:1.6;font-size:1rem;margin:0 0 10px;max-width:60ch}
+  .print-cta ul{list-style:none;margin:6px 0 14px;padding:0;display:grid;gap:9px}
+  .print-cta li{position:relative;padding-left:26px;line-height:1.5;font-size:.97rem;color:#333}
+  .print-cta li svg{position:absolute;left:0;top:3px;width:16px;height:16px;color:#a05a2b}
   .print-cta .print-link{font-weight:600;font-size:1.05rem}
   .print-cta .print-link a{color:#a05a2b;text-decoration:none}
   .print-cta .print-foot{font-size:.82rem;color:#6b6355;margin-top:16px}
@@ -192,20 +197,89 @@
   }
   @media(prefers-reduced-motion:reduce){ .orbit .dot{animation:none} }
   @media print{
+    @page{ margin:19mm 17mm }
+    *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+    :root{color-scheme:light!important}
     .bg,.grain,.nav,.download-row,.blueprint,.also,.foot,.eyebrow{display:none!important}
-    body{background:#fff;color:#1a1a1a}
-    .glass-card,.signs,.starts{box-shadow:none!important;background:#fff!important;border:1px solid #e5dfd2!important}
+    html,body{background:#fff!important;color:#1a1a1a}
+    main{position:static}
+    .wrap{max-width:100%;padding:0}
+    .results{padding:0 2mm}
+
+    /* ---- Cover page ---- */
+    .r-head{min-height:250mm;display:flex;flex-direction:column;align-items:center;justify-content:center;
+      text-align:center;margin:0;page-break-after:always}
+    .cover-type{display:block!important;font-family:var(--sans);font-size:11pt;font-weight:600;
+      letter-spacing:.26em;text-transform:uppercase;color:#a05a2b;margin:0 0 6mm}
+    .r-head h1{font-size:36pt;line-height:1.04;color:#1a1a1a;margin:0 0 6mm}
+    .r-head h1 em{color:#6b4bb0}
+    .r-head .meta{color:#6b6355;font-size:11pt;margin:0}
+    .cover-rule{display:block!important;width:56px;height:2px;background:#d8b98a;margin:9mm auto 0}
+    .cover-brand{display:block!important;font-family:var(--sans);font-size:8.5pt;letter-spacing:.22em;
+      text-transform:uppercase;color:#a49b88;margin:7mm 0 0}
+
+    /* ---- Chart card (facts + bodygraph on one page) ---- */
+    .chart-card{break-inside:avoid;padding:0;border:0!important;box-shadow:none!important;background:#fff!important;overflow:visible!important}
+    .chart-strip{padding-left:1mm;padding-right:1mm}
     .glass-card::before{display:none}
-    .fact{background:#f4f2ec;color:#1a1a1a}
-    .fact .k{color:#6b6355}
-    .fact .v,.r-head h1,.reading h2,.reading h2 em,.read-card h3,.read-card p,.read-card .val,
-    .signs h3,.signs li,.signs .wink,.starts h3,.starts li,.reading .intro,.chart-strip span{color:#1a1a1a!important}
+    .facts{break-inside:avoid;border:1px solid #e7e1d4;margin:0 0 7mm;background:#e7e1d4}
+    .fact{background:#f7f4ee;color:#1a1a1a}
+    .fact .k{color:#726a59}
+    .fact .v{color:#1a1a1a}
+    .visual{display:grid!important;grid-template-columns:1fr 2.3fr 1fr;gap:12px;align-items:center;margin:5mm 0 0}
+    .bg-screen{display:none!important}
+    .bg-print{display:block!important}
+    .bodygraph svg{border-radius:0}
+    .planets{display:block!important}
+    .planets h4{font-size:7.5pt}
+    .prow{font-size:7.5pt;padding:3px 0}
+    .bodygraph svg{max-height:150mm}
+    .planets h4{color:#726a59!important;border-color:#e7e1d4}
+    .prow{color:#33302a;border-color:#eee}
+    .prow strong{color:#111}
+    .chart-strip{color:#a49b88;border-color:#e7e1d4}
+
+    /* ---- Reading (starts on its own page) ---- */
+    .reading{margin:0;page-break-before:always}
+    .glass-card{box-shadow:none!important;background:#fff!important;border:0!important;overflow:visible!important;border-radius:0!important}
+    /* keep only the Signs callout tinted; everything else flows as clean editorial text */
+    .signs{border:1px solid #e7e1d4!important}
+    .read-card,.starts{border:0!important;padding:0!important;background:none!important;overflow:visible!important}
     .reading .kicker,.signs .kicker{color:#a05a2b!important}
-    .signs{background:#faf6ec!important}
-    .signs li svg,.starts li::before{color:#a05a2b!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    .print-cta{display:block!important}
-    .reading{margin-top:34px}
-    section,.glass-card,.signs,.read-card{break-inside:avoid}
+    .reading h2,.reading h2 em,.reading .intro,
+    .read-card h3,.read-card p,.read-card .val,
+    .signs h3,.signs li,.signs .wink,.starts h3,.starts li{color:#1a1a1a!important}
+    .read-card .val{color:#a05a2b!important}
+    .signs{background:#faf6ec!important;break-inside:avoid;margin-top:10mm}
+    .signs li svg,.starts li::before{color:#a05a2b!important}
+    .read-card,.starts,.print-cta,.signs{break-inside:avoid}
+
+    /* Each section starts on its own page so nothing is cut mid-section */
+    .read-grid{page-break-before:always;padding-top:0;grid-template-columns:1fr!important;gap:9mm!important}
+    .read-card{margin:0!important}
+    .starts{page-break-before:always;margin-top:0}
+    .starts ol{gap:6mm!important}
+    .print-cta{display:block!important;margin-top:9mm;border-color:#e7e1d4}
+
+    /* ===== One type scale, matched to the full report (Inter throughout) ===== */
+    .r-head h1,.reading h2,.reading h2 em,.signs h3,.starts h3,.print-cta h2,.read-card h3{
+      font-family:var(--sans)!important;font-style:normal!important}
+    .r-head h1{font-weight:350!important;font-size:34pt!important;letter-spacing:-.03em!important}
+    .reading h2{font-weight:500!important;font-size:22pt!important;letter-spacing:-.025em!important}
+    .r-head h1 em,.reading h2 em{color:#6b4bb0!important;font-weight:500!important;font-style:normal!important}
+    .signs h3,.starts h3,.print-cta h2{font-weight:500!important;font-size:16.5pt!important;letter-spacing:-.02em!important}
+    .read-card h3{font-weight:600!important;font-size:12.5pt!important;letter-spacing:-.01em!important;margin:0 0 3px!important}
+    /* eyebrows and labels, one uniform look */
+    .reading .kicker,.signs .kicker,.read-card .val,.cover-type,.cover-brand,.planets h4{
+      font-weight:600!important;letter-spacing:.14em!important;text-transform:uppercase!important}
+    .reading .kicker,.signs .kicker{font-size:8pt!important;margin-bottom:4mm!important}
+    .read-card .val{font-size:8pt!important;margin-bottom:6px!important}
+    .cover-type{font-size:9pt!important;letter-spacing:.22em!important}
+    .cover-brand,.planets h4{font-size:7.5pt!important}
+    /* body, one consistent size */
+    .reading .intro,.read-card p,.signs li,.signs .wink,.starts li,.print-cta p,.print-cta li{
+      font-size:10.5pt!important;line-height:1.6!important}
+    .prow{font-size:8pt!important}
   }
 </style>
 </head>
@@ -245,8 +319,11 @@
     <div class="results">
       <div class="r-head">
         <span class="eyebrow liquid-glass"><span class="dot"></span>Your Human Design</span>
+        <p class="cover-type" id="cover-type"></p>
         <h1 id="r-title">Your chart</h1>
         <p class="meta" id="r-meta"></p>
+        <span class="cover-rule"></span>
+        <p class="cover-brand">dannybunny.co · Human Design</p>
       </div>
 
       <article class="glass-card chart-card">
@@ -259,16 +336,11 @@
         <div class="chart-strip"><span>dannybunny.co · Human Design</span><span>For self-discovery, not diagnosis</span></div>
       </article>
 
-      <div class="download-row">
-        <button class="download" onclick="window.print()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 11l4 4 4-4M5 21h14"/></svg> Save or print your free report</button>
-        <span>Your free report is ready. Save the whole thing, chart and reading, then read what it means below.</span>
-      </div>
-
       <!-- MINI READING -->
       <section class="reading">
         <p class="kicker">Your chart in plain words</p>
         <h2 id="read-head">The map, and <em>what it means for you</em></h2>
-        <p class="intro">A short read on the pieces that shape how your energy works. Your full Blueprint goes far deeper, into your centres, channels, relationships and how you make aligned decisions.</p>
+        <p class="intro">A short read on the pieces that shape how your energy works. Your Cosmic Blueprint goes far deeper, into your centres, channels, relationships and how you make aligned decisions.</p>
         <div id="signs-slot"></div>
         <div class="read-grid" id="read-grid"></div>
         <div class="glass-card starts">
@@ -276,6 +348,11 @@
           <ol id="starts"></ol>
         </div>
       </section>
+
+      <div class="download-row">
+        <button class="download" onclick="window.print()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 11l4 4 4-4M5 21h14"/></svg> Save or print your free report</button>
+        <span>That is your free report. Save the whole thing, chart and reading, to keep or print.</span>
+      </div>
 
       <!-- BLUEPRINT UPSELL -->
       <section class="glass-card blueprint">
@@ -312,9 +389,17 @@
 
       <!-- PRINT-ONLY UPSELL (shows in the saved / printed free report) -->
       <section class="print-cta">
-        <h2>This is your free snapshot. Your Blueprint is the full picture.</h2>
-        <p>What you are holding is the quick, free read on your type, strategy and authority. Your Cosmic Blueprint goes much deeper. Your most significant channels and centres decoded for everyday life, how to make your best decisions, the environment you truly thrive in, and a seven-day experiment to feel the difference and start living it.</p>
-        <p class="print-link">Get your full Cosmic Blueprint at <a href="https://dannybunny.co/cosmic-blueprint">dannybunny.co/cosmic-blueprint</a></p>
+        <h2>Interested to go deeper?</h2>
+        <p>Your Cosmic Blueprint is a complete personalised reading. Here is what is inside.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>How to make your best decisions, and how to tell when you are living your design or drifting off it</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Your most significant channels, your superpowers, decoded for everyday life</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>The environment you truly thrive in, so work stops feeling like a fight</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Where you are solid, and where you pick up other people's energy, so you know what is actually yours</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Work, business, career and relationships, read through your own design</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>A seven-day experiment to feel the difference and start living it</li>
+        </ul>
+        <p class="print-link">Get Your Cosmic Blueprint <a href="https://dannybunny-cosmic-blueprint.netlify.app/">here</a>.</p>
         <p class="print-foot">Human Design for Heart-Led Creatives · <a href="https://dannybunny.co">dannybunny.co</a></p>
       </section>
     </div>
@@ -456,7 +541,7 @@
     else if(t.indexOf("manifestor")>=0) out.push("Before your next move, tell the people it affects. Watch how much smoother it goes when they are not caught off guard.");
     else if(t.indexOf("reflector")>=0) out.push("Audit where you spend your days. Spend more time in the places and with the people that leave you feeling clear and well.");
     else out.push("This week, only say yes to what genuinely lights you up. Let the flat, should-do things fall away and see what fills the space.");
-    out.push("Read your full Blueprint for the specific channels and centres that make all of this personal to you.");
+    out.push("Read your Cosmic Blueprint for the specific channels and centres that make all of this personal to you.");
     return out;
   }
 
@@ -475,6 +560,7 @@
     var poss = /s$/i.test(name) ? name+"'" : name+"'s";
     $("r-title").innerHTML = esc(poss)+" <em>Human Design</em>";
     $("r-meta").textContent = dateLabel+" · "+place+" · "+String(tz).replace(/_/g," ");
+    var _ct=$("cover-type"); if(_ct) _ct.textContent = chart.type||"";
     var _pk0=(chart.profile||"").trim(), _pn=chart.profileName||((PROFILE[_pk0]&&PROFILE[_pk0][0])?PROFILE[_pk0][0].replace(/^The\s+/,""):"");
     var prof = chart.profile + (_pn?(" "+_pn):"");
     $("facts").innerHTML =
@@ -486,8 +572,10 @@
       factCell("Signature",chart.signature||"None")+
       factCell("Not-self theme",chart.notSelf||"None")+
       factCell("Incarnation cross",(chart.cross&&chart.cross.name?chart.cross.name:"None"));
+    var _bgData={channels:chart.channels,gates:chart.gates,definedCenters:chart.centers,activations:chart.activations};
     $("bodygraph").innerHTML = (window.HDBodygraph&&window.HDBodygraph.renderToSVG)
-      ? window.HDBodygraph.renderToSVG({channels:chart.channels,gates:chart.gates,definedCenters:chart.centers,activations:chart.activations},{theme:"dark",width:720})
+      ? '<div class="bg-screen">'+window.HDBodygraph.renderToSVG(_bgData,{theme:"dark",width:720,showActivationColumns:false})+'</div>'
+        +'<div class="bg-print">'+window.HDBodygraph.renderToSVG(_bgData,{theme:"linen",width:720,showActivationColumns:false})+'</div>'
       : '<p style="color:#f0a58c">Bodygraph renderer unavailable.</p>';
     $("design-planets").innerHTML = planetRows(chart.activations&&chart.activations.design);
     $("pers-planets").innerHTML = planetRows(chart.activations&&chart.activations.personality);

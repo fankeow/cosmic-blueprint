@@ -596,7 +596,7 @@ function centerLabel(shape, theme) {
       return `<text x="${labelX}" y="${cy}" text-anchor="middle" dominant-baseline="middle" ${font} font-size="9">SPLEEN</text>`;
     }
     case "G": {
-      return `<text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle" ${font} font-size="10">G</text>`;
+      return `<text x="${cx}" y="${cy + 30}" text-anchor="middle" dominant-baseline="middle" ${font} font-size="10">G</text>`;
     }
     case "Ego": {
       return `<text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle" ${font} font-size="9">EGO</text>`;
@@ -605,10 +605,10 @@ function centerLabel(shape, theme) {
       return `<text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle" ${font} font-size="10">SACRAL</text>`;
     }
     case "Root": {
-      return `<text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle" ${font} font-size="10">ROOT</text>`;
+      return `<text x="${cx}" y="${cy - 28}" text-anchor="middle" dominant-baseline="middle" ${font} font-size="10">ROOT</text>`;
     }
     case "Throat": {
-      return `<text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle" ${font} font-size="10">THROAT</text>`;
+      return `<text x="${cx}" y="${cy + 24}" text-anchor="middle" dominant-baseline="middle" ${font} font-size="10">THROAT</text>`;
     }
     case "Ajna": {
       return `<text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle" ${font} font-size="10">AJNA</text>`;
