@@ -338,10 +338,10 @@ body.sr-on .reveal.in{opacity:1;transform:none}
   var bp=document.getElementById("bp");
   function esc(s){return String(s||"").replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
   function state(title,msg){bp.innerHTML='<div class="load-state">'+(title==null?'<div class="spin"></div>':'<h1>'+title+'</h1>')+(msg?'<p>'+msg+'</p>':'')+'</div>';}
-  var token=(new URLSearchParams(location.search).get("token")||"").trim();
-  if(!/^[a-f0-9]{16,64}$/.test(token)){state("We could not find that Blueprint","This link looks incomplete. If you have just bought your Blueprint, please use the link from your confirmation email, or head back and generate your chart again.");return;}
+  var sid=(new URLSearchParams(location.search).get("session_id")||"").trim();
+  if(!/^cs_[A-Za-z0-9_]+$/.test(sid)){state("We could not find that Blueprint","This link looks incomplete. If you have just bought your Blueprint, please use the link from your confirmation email, or head back and generate your chart again.");return;}
   state(null,"Bringing your Cosmic Blueprint to life. One moment.");
-  fetch("/api/blueprint?token="+encodeURIComponent(token),{cache:"no-store"}).then(function(r){return r.json();}).then(function(d){
+  fetch("/api/blueprint?session_id="+encodeURIComponent(sid),{cache:"no-store"}).then(function(r){return r.json();}).then(function(d){
     if(!d||!d.ok){
       if(d&&d.reason==="unpaid"){state("Almost there","We have not received your payment for this Blueprint yet. If you have just paid, give it a few seconds and refresh this page.");}
       else{state("We could not find that Blueprint","This link is not valid or has expired. Please use the link from your confirmation email, or generate a fresh chart.");}

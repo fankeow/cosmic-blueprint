@@ -2,13 +2,13 @@
 // Cosmic Blueprint — return a buyer's chart for the delivery page.
 //
 // Payment-gated: only returns the chart once Stripe confirms the session is
-// paid. The blueprint.html page renders the Blueprint client-side from this.
+// paid. The chart is read straight back out of the Checkout session metadata.
 //
 // Requires env vars: STRIPE_SECRET_KEY.
 // ---------------------------------------------------------------------------
 
 const Stripe = require("stripe");
-const { getStore } = require("@netlify/blobs");
+const zlib = require("zlib");
 
 function json(statusCode, body) {
   return {
@@ -19,34 +19,31 @@ function json(statusCode, body) {
 }
 
 exports.handler = async (event) => {
-  const token = (event.queryStringParameters || {}).token || "";
-  if (!/^[a-f0-9]{16,64}$/.test(token)) return json(400, { ok: false, reason: "missing" });
+  const sid = (event.queryStringParameters || {}).session_id || "";
+  if (!/^cs_[A-Za-z0-9_]+$/.test(sid)) return json(400, { ok: false, reason: "missing" });
 
-  const store = getStore("blueprints");
-  let rec = null;
-  try { rec = await store.get(token, { type: "json" }); } catch (e) { rec = null; }
-  if (!rec) return json(404, { ok: false, reason: "notfound" });
+  const secret = process.env.STRIPE_SECRET_KEY;
+  if (!secret) return json(500, { ok: false, reason: "config" });
 
-  let paid = rec.paid === true;
+  const stripe = Stripe(secret);
+  let s;
+  try { s = await stripe.checkout.sessions.retrieve(sid); }
+  catch (e) { return json(404, { ok: false, reason: "notfound" }); }
+  if (!s) return json(404, { ok: false, reason: "notfound" });
+  if (s.payment_status !== "paid") return json(200, { ok: false, reason: "unpaid" });
 
-  // Fallback: if the webhook hasn't landed yet, confirm straight from Stripe.
-  if (!paid && rec.session_id && process.env.STRIPE_SECRET_KEY) {
-    try {
-      const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
-      const s = await stripe.checkout.sessions.retrieve(rec.session_id);
-      if (s && s.payment_status === "paid") {
-        paid = true;
-        rec.paid = true;
-        await store.setJSON(token, rec);
-      }
-    } catch (e) { /* leave unpaid */ }
-  }
+  const m = s.metadata || {};
+  const n = parseInt(m.cn || "0", 10);
+  let packed = "";
+  for (let i = 0; i < n; i++) packed += (m["c" + i] || "");
 
-  if (!paid) return json(200, { ok: false, reason: "unpaid" });
+  let chart;
+  try { chart = JSON.parse(zlib.gunzipSync(Buffer.from(packed, "base64")).toString("utf8")); }
+  catch (e) { return json(500, { ok: false, reason: "corrupt" }); }
 
   return json(200, {
     ok: true,
-    chart: rec.chart,
-    meta: { name: rec.name || "", bornLine: rec.bornLine || "", businessMode: "chapter" },
+    chart,
+    meta: { name: m.nm || "", bornLine: m.bl || "", businessMode: "chapter" },
   });
 };

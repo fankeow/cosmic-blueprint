@@ -1,18 +1,18 @@
 // ---------------------------------------------------------------------------
 // Cosmic Blueprint — create a Stripe Checkout session for the $47 upsell.
 //
-// Runs on Netlify's servers. The buyer's computed chart is stored server-side
-// (Netlify Blobs) under a random token, and the token rides through Stripe so
-// the paid Blueprint can be rebuilt and delivered at /blueprint.html?token=...
+// The buyer's computed chart is compressed and tucked into the Checkout
+// session's metadata, so the paid Blueprint can be rebuilt and delivered at
+// /blueprint.html?session_id=... with no external storage.
 //
 // Requires env vars: STRIPE_SECRET_KEY, and optionally SITE_URL.
 // ---------------------------------------------------------------------------
 
 const Stripe = require("stripe");
-const { getStore } = require("@netlify/blobs");
-const crypto = require("crypto");
+const zlib = require("zlib");
 
 const PRICE_CENTS = 4700; // $47 one-off
+const CHUNK = 480;        // Stripe metadata values cap at 500 chars
 
 function json(statusCode, body) {
   return {
@@ -38,8 +38,19 @@ exports.handler = async (event) => {
   const bornLine = String(input.bornLine || "").trim();
   if (!chart || !chart.type) return json(400, { error: "We could not read your chart. Please regenerate it and try again." });
 
+  // Compress the chart and split it into metadata-sized chunks.
+  let parts;
+  try {
+    const packed = zlib.gzipSync(Buffer.from(JSON.stringify(chart), "utf8")).toString("base64");
+    parts = [];
+    for (let i = 0; i < packed.length; i += CHUNK) parts.push(packed.slice(i, i + CHUNK));
+  } catch (e) { return json(400, { error: "We could not prepare your chart. Please regenerate it and try again." }); }
+  if (parts.length > 45) return json(400, { error: "Your chart is unusually large. Please contact us and we will sort it out." });
+
+  const metadata = { cn: String(parts.length), nm: name.slice(0, 480), bl: bornLine.slice(0, 480), em: email.slice(0, 480) };
+  parts.forEach((p, i) => { metadata["c" + i] = p; });
+
   const stripe = Stripe(secret);
-  const token = crypto.randomBytes(16).toString("hex");
   const host = event.headers["x-forwarded-host"] || event.headers.host || "";
   const site = (process.env.SITE_URL || (host ? "https://" + host : "")).replace(/\/$/, "");
 
@@ -58,22 +69,10 @@ exports.handler = async (event) => {
           },
         },
       }],
-      success_url: site + "/blueprint.html?token=" + token,
+      success_url: site + "/blueprint.html?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: site + "/chart.html?checkout=cancelled",
-      metadata: { token, email },
+      metadata,
     });
-
-    const store = getStore("blueprints");
-    await store.setJSON(token, {
-      paid: false,
-      email,
-      name,
-      bornLine,
-      chart,
-      session_id: session.id,
-      created: Date.now(),
-    });
-
     return json(200, { url: session.url });
   } catch (err) {
     return json(502, { error: "We could not start checkout just now. Please try again in a moment." });
