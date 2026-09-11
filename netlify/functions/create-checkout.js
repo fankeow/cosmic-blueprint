@@ -58,6 +58,7 @@ exports.handler = async (event) => {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       customer_email: email || undefined,
+      allow_promotion_codes: true, // lets Circle members enter a code (e.g. 100% off) at checkout
       line_items: [{
         quantity: 1,
         price_data: {

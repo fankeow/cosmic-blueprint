@@ -30,7 +30,8 @@ exports.handler = async (event) => {
   try { s = await stripe.checkout.sessions.retrieve(sid); }
   catch (e) { return json(404, { ok: false, reason: "notfound" }); }
   if (!s) return json(404, { ok: false, reason: "notfound" });
-  if (s.payment_status !== "paid") return json(200, { ok: false, reason: "unpaid" });
+  // "paid" for a normal purchase; "no_payment_required" when a 100% off coupon makes it free.
+  if (s.payment_status !== "paid" && s.payment_status !== "no_payment_required") return json(200, { ok: false, reason: "unpaid" });
 
   const m = s.metadata || {};
   const n = parseInt(m.cn || "0", 10);
