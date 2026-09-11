@@ -1,0 +1,13 @@
+{
+  "name": "dannybunny-human-design",
+  "version": "1.1.0",
+  "private": true,
+  "description": "DannyBunny free Human Design chart funnel + Cosmic Blueprint paid upsell (Stripe + Kit)",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "stripe": "^16.12.0",
+    "@netlify/blobs": "^8.1.0"
+  }
+}

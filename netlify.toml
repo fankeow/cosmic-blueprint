@@ -1,0 +1,36 @@
+# DannyBunny — Human Design chart funnel
+# Static site + one serverless function that talks to Kit with a server-side key.
+
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+# Pretty endpoints the pages post to.
+[[redirects]]
+  from = "/api/subscribe"
+  to = "/.netlify/functions/subscribe"
+  status = 200
+
+[[redirects]]
+  from = "/api/hd-data"
+  to = "/.netlify/functions/hd-data"
+  status = 200
+
+[[redirects]]
+  from = "/api/create-checkout"
+  to = "/.netlify/functions/create-checkout"
+  status = 200
+
+[[redirects]]
+  from = "/api/blueprint"
+  to = "/.netlify/functions/get-blueprint"
+  status = 200
+
+[[redirects]]
+  from = "/api/stripe-webhook"
+  to = "/.netlify/functions/stripe-webhook"
+  status = 200
+
+# Modern Node runtime for the function.
+[functions]
+  node_bundler = "esbuild"
