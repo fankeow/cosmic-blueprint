@@ -115,6 +115,22 @@
   .reading h2{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4.6vw,3.1rem);line-height:1.04;letter-spacing:.01em;text-align:center;margin:0 auto 14px;max-width:20ch}
   .reading h2 em{font-style:italic;color:var(--lilac)}
   .reading .intro{color:var(--ink-soft);max-width:56ch;margin:0 auto 34px;text-align:center;font-size:1.02rem}
+  .signs{margin:0 auto 28px;max-width:660px;padding:28px 32px;border-radius:20px;
+    background:linear-gradient(180deg,rgba(242,219,169,.14),rgba(230,150,120,.08));
+    border:1px solid rgba(242,219,169,.3)}
+  .signs .kicker{color:var(--coral);text-transform:uppercase;letter-spacing:.16em;font-size:.68rem;font-weight:600;margin:0 0 8px;text-align:left}
+  .signs h3{font-family:var(--serif);font-weight:400;font-size:1.55rem;line-height:1.1;color:var(--ink);margin:0 0 16px}
+  .signs ul{margin:0;padding:0;list-style:none;display:grid;gap:12px}
+  .signs li{position:relative;padding-left:30px;line-height:1.55;font-size:1rem;color:var(--ink-soft)}
+  .signs li svg{position:absolute;left:0;top:3px;width:18px;height:18px;color:var(--coral)}
+  .signs .wink{margin:16px 0 0;font-size:.92rem;color:var(--muted);font-style:italic}
+  .print-cta{display:none;margin-top:30px;padding:24px 26px;border:1px solid #e5dfd2;border-radius:14px}
+  .print-cta h2{font-family:var(--serif);font-weight:400;font-size:1.6rem;color:#1a1a1a;margin:0 0 10px}
+  .print-cta p{color:#333;line-height:1.6;font-size:1rem;margin:0 0 10px;max-width:60ch}
+  .print-cta .print-link{font-weight:600;font-size:1.05rem}
+  .print-cta .print-link a{color:#a05a2b;text-decoration:none}
+  .print-cta .print-foot{font-size:.82rem;color:#6b6355;margin-top:16px}
+  .print-cta .print-foot a{color:#6b6355}
   .read-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
   .read-card{padding:26px 28px}
   .read-card h3{font-family:var(--sans);font-weight:600;font-size:1.05rem;margin:0 0 4px;color:var(--ink)}
@@ -153,7 +169,8 @@
 
   /* ---------- also ---------- */
   .also{margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
-  .also-card{padding:24px 26px}
+  .also-card{padding:24px 26px;display:block;text-decoration:none;transition:transform .18s ease,box-shadow .18s ease}
+  a.also-card:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(40,30,20,.12)}
   .also-card .k{text-transform:uppercase;letter-spacing:.14em;font-size:.62rem;font-weight:600;color:var(--coral)}
   .also-card h4{font-family:var(--serif);font-weight:400;font-size:1.35rem;margin:9px 0 6px;color:var(--ink)}
   .also-card p{color:var(--muted);font-size:.9rem;line-height:1.55;margin:0}
@@ -175,12 +192,20 @@
   }
   @media(prefers-reduced-motion:reduce){ .orbit .dot{animation:none} }
   @media print{
-    .bg,.grain,.nav,.download-row,.reading,.blueprint,.also,.foot{display:none!important}
-    body{background:#fff;color:#111}
-    .glass-card{box-shadow:none;background:#fff}
+    .bg,.grain,.nav,.download-row,.blueprint,.also,.foot,.eyebrow{display:none!important}
+    body{background:#fff;color:#1a1a1a}
+    .glass-card,.signs,.starts{box-shadow:none!important;background:#fff!important;border:1px solid #e5dfd2!important}
     .glass-card::before{display:none}
-    .fact{background:#f4f2ec;color:#111}
-    .fact .v,.r-head h1{color:#111}
+    .fact{background:#f4f2ec;color:#1a1a1a}
+    .fact .k{color:#6b6355}
+    .fact .v,.r-head h1,.reading h2,.reading h2 em,.read-card h3,.read-card p,.read-card .val,
+    .signs h3,.signs li,.signs .wink,.starts h3,.starts li,.reading .intro,.chart-strip span{color:#1a1a1a!important}
+    .reading .kicker,.signs .kicker{color:#a05a2b!important}
+    .signs{background:#faf6ec!important}
+    .signs li svg,.starts li::before{color:#a05a2b!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .print-cta{display:block!important}
+    .reading{margin-top:34px}
+    section,.glass-card,.signs,.read-card{break-inside:avoid}
   }
 </style>
 </head>
@@ -235,8 +260,8 @@
       </article>
 
       <div class="download-row">
-        <button class="download" onclick="window.print()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 11l4 4 4-4M5 21h14"/></svg> Save / print your chart</button>
-        <span>Your free chart is ready. Save it, then read what it means below.</span>
+        <button class="download" onclick="window.print()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 11l4 4 4-4M5 21h14"/></svg> Save or print your free report</button>
+        <span>Your free report is ready. Save the whole thing, chart and reading, then read what it means below.</span>
       </div>
 
       <!-- MINI READING -->
@@ -244,6 +269,7 @@
         <p class="kicker">Your chart in plain words</p>
         <h2 id="read-head">The map, and <em>what it means for you</em></h2>
         <p class="intro">A short read on the pieces that shape how your energy works. Your full Blueprint goes far deeper, into your centres, channels, relationships and how you make aligned decisions.</p>
+        <div id="signs-slot"></div>
         <div class="read-grid" id="read-grid"></div>
         <div class="glass-card starts">
           <h3>Three ways to start living it this week</h3>
@@ -256,13 +282,14 @@
         <div class="bp-left">
           <p class="kicker">Go deeper</p>
           <h2>Your chart shows the map. Your <em>Blueprint</em> helps you live it.</h2>
-          <p class="bp-lede">A personalised guide to your energy, decisions, work, relationships and the patterns you are here to release. Written from your exact chart, in Danny's clear, grounded voice.</p>
+          <p class="bp-lede">A personalised guide to your energy, decisions, work, relationships and the patterns you are here to release. Written from your exact birth details and chart, in a clear, grounded voice.</p>
           <ul class="bp-list">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Your type, strategy and authority in real life, not theory</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Your defined strengths and your open-centre conditioning</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Your most significant channels, decoded for daily life</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Work and business, relationships, and how you decide</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> A seven-day experiment to feel the difference</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> How to make your best decisions, and how to tell when you're living your design or drifting off it</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Your most significant channels, your superpowers, decoded for everyday life</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> The environment you truly thrive in, so work stops feeling like a fight</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Where you are solid, and where you soak up other people's energy, so you know what is actually yours</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Work, business, career and relationships, all read through your own design</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> A seven-day experiment to feel the difference and start living it</li>
           </ul>
         </div>
         <div class="bp-right">
@@ -279,9 +306,17 @@
 
       <!-- ALSO FROM DANNY -->
       <div class="also">
-        <div class="glass-card also-card"><div class="k">Go further</div><h4>The Human Design course</h4><p>Learn to read and live your whole design, at your own pace, with Danny guiding the way.</p></div>
-        <div class="glass-card also-card"><div class="k">Work with Danny</div><h4>A one-to-one reading</h4><p>Your chart, read live with Danny, tuned to what you are navigating right now.</p></div>
+        <a class="glass-card also-card" href="https://dannybunny.co/cosmic-blueprint" target="_blank" rel="noopener"><div class="k">Go further</div><h4>The Human Design course</h4><p>Learn to read and live your whole design, at your own pace, with Danny guiding the way.</p></a>
+        <a class="glass-card also-card" href="https://dannybunny.co/the-magic-room" target="_blank" rel="noopener"><div class="k">Work with Danny</div><h4>A one-to-one reading</h4><p>Your chart, read live with Danny, tuned to what you are navigating right now.</p></a>
       </div>
+
+      <!-- PRINT-ONLY UPSELL (shows in the saved / printed free report) -->
+      <section class="print-cta">
+        <h2>This is your free snapshot. Your Blueprint is the full picture.</h2>
+        <p>What you are holding is the quick, free read on your type, strategy and authority. Your Cosmic Blueprint goes much deeper. Your most significant channels and centres decoded for everyday life, how to make your best decisions, the environment you truly thrive in, and a seven-day experiment to feel the difference and start living it.</p>
+        <p class="print-link">Get your full Cosmic Blueprint at <a href="https://dannybunny.co/cosmic-blueprint">dannybunny.co/cosmic-blueprint</a></p>
+        <p class="print-foot">Human Design for Heart-Led Creatives · <a href="https://dannybunny.co">dannybunny.co</a></p>
+      </section>
     </div>
   </section>
 </main>
@@ -370,6 +405,47 @@
     if(d.indexOf("single")>=0) return "Single definition. Your centres are all connected in one piece, so you process consistently and self-sufficiently. You do not need anyone else to feel whole.";
     return "Your definition describes how your energy is wired together and how you process the world.";
   }
+  function signsFor(type){
+    var t=(type||"").toLowerCase();
+    if(t.indexOf("manifesting generator")>=0) return {name:"Manifesting Generator", lines:[
+      "You have about seventeen things on the go, and that is a normal Tuesday.",
+      "You skip steps, and somehow still get there faster than the people following the manual.",
+      "You start a thing, feel halfway in that it is not it, and pivot without a shred of guilt.",
+      "When something lights you up, you move at double speed. When it does not, you are asleep at your desk."
+    ], wink:"Multi-passionate is your natural state, not a phase you will grow out of."};
+    if(t.indexOf("generator")>=0) return {name:"Generator", lines:[
+      "When the work is right, you have energy for days. When it is wrong, you are flat by lunch.",
+      "Your gut answers before your brain has finished reading the question.",
+      "If you do not burn off the day's energy, you are staring at the ceiling at midnight.",
+      "You fall for the work that gives you butterflies, not the one that looks sensible on paper."
+    ], wink:"Your frustration is not a fault. It is your body telling you it is time to change the channel."};
+    if(t.indexOf("manifestor")>=0) return {name:"Manifestor", lines:[
+      "The second something starts to feel like a cage, you are already halfway out the door.",
+      "Being told what to do brings out a very specific kind of no.",
+      "You go all in for two weeks, then vanish to recharge, and that is simply how you run.",
+      "The nine-to-five fits you like a square peg in a round hole."
+    ], wink:"You are here to start things. Letting people know before you move is your superpower, not a chore."};
+    if(t.indexOf("projector")>=0) return {name:"Projector", lines:[
+      "Two to four hours of the right work and you have done more than most manage all day.",
+      "You can see what is off in a room, a plan or a person, often before they can.",
+      "Unasked-for advice lands with a thud. Invited advice makes you shine.",
+      "You need more rest than the people around you, and pushing through never ends well."
+    ], wink:"You are not lazy. You are efficient, and you are waiting to be seen for the right thing."};
+    if(t.indexOf("reflector")>=0) return {name:"Reflector", lines:[
+      "You are roughly one in a hundred, so 'normal' was never going to fit.",
+      "You read the mood of a room the moment you walk into it.",
+      "Change the place or the people and you feel like a different person, because you are sampling them.",
+      "Big decisions want a full moon cycle, and you already know rushing them never goes well."
+    ], wink:"You are a mirror for the health of everything around you. Choose your rooms, and your people, with care."};
+    return null;
+  }
+  function signsBlock(type){
+    var s=signsFor(type); if(!s) return "";
+    var tick='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
+    return '<div class="signs"><p class="kicker">Spot on, or spookily accurate?</p><h3>Signs you are a '+esc(s.name)+'</h3><ul>'+
+      s.lines.map(function(l){return '<li>'+tick+esc(l)+'</li>';}).join("")+
+      '</ul><p class="wink">'+esc(s.wink)+'</p></div>';
+  }
   function startsFor(type,auth){
     var a=(auth||"").toLowerCase(), t=(type||"").toLowerCase(), out=[];
     if(a.indexOf("emotional")>=0||a.indexOf("solar")>=0) out.push("Put a night, or a few, between a big question and your answer. Watch how your feeling about it moves before you commit.");
@@ -389,7 +465,7 @@
   function factCell(k,v){ return '<div class="fact"><div class="k">'+esc(k)+'</div><div class="v">'+esc(v)+'</div></div>'; }
   function planetRows(side){
     return PLANETS.map(function(p){
-      var v=side&&side[p[0]]!=null?side[p[0]]:"—";
+      var v=side&&side[p[0]]!=null?side[p[0]]:"None";
       return '<div class="prow"><span>'+esc(p[1])+'</span><strong>'+esc(v)+'</strong></div>';
     }).join("");
   }
@@ -407,9 +483,9 @@
       factCell("Authority",chart.authority)+
       factCell("Profile",prof)+
       factCell("Definition",chart.definition)+
-      factCell("Signature",chart.signature||"—")+
-      factCell("Not-self theme",chart.notSelf||"—")+
-      factCell("Incarnation cross",(chart.cross&&chart.cross.name?chart.cross.name:"—"));
+      factCell("Signature",chart.signature||"None")+
+      factCell("Not-self theme",chart.notSelf||"None")+
+      factCell("Incarnation cross",(chart.cross&&chart.cross.name?chart.cross.name:"None"));
     $("bodygraph").innerHTML = (window.HDBodygraph&&window.HDBodygraph.renderToSVG)
       ? window.HDBodygraph.renderToSVG({channels:chart.channels,gates:chart.gates,definedCenters:chart.centers,activations:chart.activations},{theme:"dark",width:720})
       : '<p style="color:#f0a58c">Bodygraph renderer unavailable.</p>';
@@ -418,6 +494,7 @@
 
     var pk=(chart.profile||"").trim(), pinfo=PROFILE[pk]||["",""];
     $("read-head").innerHTML = "You are a <em>"+esc(chart.type)+"</em>";
+    $("signs-slot").innerHTML = signsBlock(chart.type);
     $("read-grid").innerHTML =
       readCard("Your type",chart.type,typeCopy(chart.type))+
       readCard("Your strategy",chart.strategy,stratCopy(chart.strategy))+

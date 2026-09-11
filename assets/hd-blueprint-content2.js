@@ -561,8 +561,8 @@
     nextSteps: {
       intro: "Your Blueprint is yours to keep and come back to whenever you like. If it has lit something up and you want to take it further, here are the two doors.",
       doors: [
-        { eyebrow: "Learn it fully", title: "Cosmic Blueprint", desc: "Dan's Human Design course. Learn to read and truly live your whole design, at your own pace, with the frameworks to actually apply it to your life and work.", cta: "Explore Cosmic Blueprint", href: "https://dannybunny.co" },
-        { eyebrow: "Go one to one, by application", title: "In Your Pocket", desc: "One-to-one coaching with Dan, for your life and your business. Whatever season you are in, we work through it together, with the honest support and clarity to help you move well.", cta: "Apply for In Your Pocket", href: "https://dannybunny.co" }
+        { eyebrow: "Learn it fully", title: "Cosmic Blueprint", desc: "Dan's Human Design course. Learn to read and truly live your whole design, at your own pace, with the frameworks to actually apply it to your life and work.", cta: "Explore Cosmic Blueprint", href: "https://dannybunny.co/cosmic-blueprint" },
+        { eyebrow: "Go one to one, by application", title: "In Your Pocket", desc: "One-to-one coaching with Dan, for your life and your business. Whatever season you are in, we work through it together, with the honest support and clarity to help you move well.", cta: "Apply for In Your Pocket", href: "https://dannybunny.co/pocket" }
       ]
     }
   };

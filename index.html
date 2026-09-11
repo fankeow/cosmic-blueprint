@@ -200,6 +200,8 @@
   .soc:hover{color:#fff;background:rgba(255,255,255,.05)}
   .soc svg{width:19px;height:19px}
   .foot-copy{color:var(--muted);font-size:.82rem}
+  .foot-copy a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.35)}
+  .foot-copy a:hover{border-bottom-color:#fff}
 
   @media(max-width:820px){.cards,.steps{grid-template-columns:1fr}.optin-grid{grid-template-columns:1fr}.chart-preview{order:-1;padding:28px}}
   @media(max-width:560px){.row2{grid-template-columns:1fr}.nav-inner{padding:10px 12px 10px 18px}}
@@ -361,7 +363,7 @@ void main(){
               <p class="field-hint">Your chart is emailed to you, plus Danny's Human Design notes. Unsubscribe anytime.</p></div>
             <p class="form-error" id="form-error" hidden></p>
             <button class="submit-btn" type="submit">Generate your chart</button>
-            <p class="note" id="note">Don't know your exact birth time? Roughly right still works.</p>
+            <p class="note" id="note">Please take note, your time of birth matters. If it is off by even a little, it can generate a very different chart.</p>
           </form>
           <div class="trust">
             <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Free to generate</span>
@@ -386,7 +388,7 @@ void main(){
     <a class="soc liquid-glass" href="https://instagram.com/dannybunny.co" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.6"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></a>
     <a class="soc liquid-glass" href="https://dannybunny.co/cosmic-blueprint" target="_blank" rel="noopener" aria-label="Cosmic Blueprint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.7 4.3L18 9l-4.3 1.7L12 15l-1.7-4.3L6 9l4.3-1.7L12 3z"/><circle cx="18.6" cy="17.6" r="1.3" fill="currentColor" stroke="none"/><circle cx="6.2" cy="16.4" r="1" fill="currentColor" stroke="none"/></svg></a>
   </div>
-  <p class="foot-copy">DannyBunny, Human Design for heart-led creatives</p>
+  <p class="foot-copy">Human Design for Heart-Led Creatives · by <a href="https://dannybunny.co" target="_blank" rel="noopener">dannybunny.co</a></p>
 </footer>
 
 <script>
@@ -572,7 +574,7 @@ void main(){
       var place=resolvePlace();
       if(!name){ showErr('Please add your first name.'); return; }
       if(!bdate){ showErr('Please enter your date of birth.'); return; }
-      if(!btime){ showErr('Please enter your time of birth. Roughly right still works.'); return; }
+      if(!btime){ showErr('Please enter your time of birth. It matters, as even a little off can change your chart.'); return; }
       if(!place){ showErr('Choose your birthplace from the list so we use the right timezone.'); return; }
       if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ showErr('Please enter a valid email address.'); return; }
 
